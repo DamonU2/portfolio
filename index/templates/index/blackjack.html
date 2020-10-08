@@ -1,0 +1,94 @@
+{% extends 'index/layout.html' %}
+{% load static %}
+{% block title %}Blackjack with Javascript{% endblock title %}
+{% block content %}
+<br>
+<br>
+<div class="container-5">
+    <h2>Let's Play Blackjack!</h2>
+    <h3>
+        <span id="split-result"></span><span id="bj-result">Click Deal</span>
+    </h3>
+    
+    <div class="flex-bj-row-2">
+        <div>
+            <button class="btn btn-dark mr-2" id="bj-hit-btn" disabled>Hit</button>
+            <button class="btn btn-dark mr-2" id="bj-DD-btn" disabled>Double Down</button>
+            <button class="btn btn-dark mr-2" id="bj-split-btn" disabled>Split</button>
+            <button class="btn btn-dark mr-2" id="bj-stand-btn" disabled>Stand</button>
+            <button class="btn btn-secondary" id="bj-deal-btn">Deal</button>
+        </div>
+    </div>
+
+    <div class="flex-bj-row-1" id="bj-row-1">
+        <div id="your-box" style="visibility: hidden;">
+            <h2><span id="your-bj-result">You</span></h2>
+        </div>
+        <div id="dealer-box" style="visibility: hidden;">
+            <h2>Dealer: <span id="dealer-bj-result">0</span></h2>
+        </div>
+    </div>
+
+    <div class="flex-bj-row-3">
+        <div>
+            <table style="margin-right: 40px;">
+                <tr>
+                    <th>Your Money</th>
+                </tr>
+                <tr>
+                    <td><span id="money">$230</span></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th>Your Bet</th>
+                </tr>
+                <tr>
+                    <td><span id="bet">$20</span></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <button class="btn btn-dark" id="add-bet">+5</button>
+            <button class="btn btn-dark" id="reduce-bet">-5</button>
+            <button class="btn btn-dark" id="max-bet">Max</button>
+            <button class="btn btn-dark" id="restart" style="visibility: hidden;">Try Again</button>
+        </div>
+        <div>
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#rulesModal">House Rules</button>
+        </div>
+        
+    </div>
+    <p>If you love these cards, you can purchase a deck at <a href="https://bonafideplayingcards.com/portfolio/count-monte-cristo-playing-cards/">bonafideplayingcards.com</a>.</p>
+</div>
+<br>
+<br>
+
+<div class="modal" id="rulesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">House Rules</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul>
+              <li>The game is played with two decks, you will hear a shuffle sound when they are shuffled</li>
+              <li>Blackjack pays 3:2</li>
+              <li>No insurance is offered - you don't want it</li>
+              <li>Dealer hits to 17</li>
+              <li>Dealer stands on soft 17</li>
+              <li>Double down on any 2 cards</li>
+              <li>You can only split once per hand</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script src="{% static 'js/bj.js' %}"></script>
+{% endblock content %}

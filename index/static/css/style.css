@@ -1,0 +1,135 @@
+body {
+    background-image: url('/static/images/dust-bg.jpg');
+    overflow-y: hidden;
+}
+
+.navbar-brand {
+    margin-left: -15px;
+}
+
+.navbar img {
+    padding-left: 20px;
+    margin-top: 0;
+    vertical-align: text-bottom;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 95vh;
+}
+
+.container a {
+    color: black;
+    text-decoration: none;
+}
+
+.container a:hover {
+    color: #aaaaaa;
+    text-decoration: none;
+ }
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.site-menu {
+    padding-top: 25px;
+}
+
+.menu-list {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    border: 2px solid black;
+    display: table;
+}
+
+.menu-list li {
+    border-right: 2px solid black;
+    float: left;
+    display: table-cell;
+}
+
+.menu-list li:last-child {
+    border-right: none;
+}
+
+.menu-list li a{
+    color: black;
+    display: block;
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.menu-list li a:hover {
+   color: #aaaaaa;
+}
+
+.project-pic {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.container-5 {
+    width: 75%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 40px;
+    background-image: url('../images/green-felt.jpg');
+    color: #ffffff;
+    object-fit: fill;
+    max-width: 873px;
+}
+
+.flex-bj-row-1, .flex-bj-row-2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.flex-bj-row-1 {
+    height: auto;
+    justify-content: space-between;
+    padding: 10px;
+    flex-basis: 100%;
+}
+
+.flex-bj-row-1 div {
+    flex: 1;
+    text-align: center;
+    flex-shrink: 1;
+    min-height: 370px;
+}
+
+.flex-bj-row-1 img {
+    width: 30%;
+    padding: 2px;
+}
+
+.flex-bj-row-3 {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-bj-row-3 div {
+    padding: 10px;
+}
+
+.flex-bj-row-3 button {
+    margin-top: 40px;
+}
+
+table, th, td {
+    color: white;
+    padding: 5px;
+    text-align: center;
+    font-size: large;
+}
