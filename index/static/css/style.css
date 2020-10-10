@@ -77,6 +77,10 @@ body {
     border-radius: 50%;
 }
 
+.col-proj {
+    text-align: center;
+}
+
 .container-5 {
     width: 75%;
     text-align: center;
