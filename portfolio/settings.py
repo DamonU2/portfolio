@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'index',
     'users',
     'krnotes',
+    'todo',
     'crispy_forms',
 ]
 

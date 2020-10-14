@@ -11,6 +11,7 @@ urlpatterns = [
     path('krnotes/', include('krnotes.urls')),
     path('krnotes/login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('krnotes/logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('todo/', include('todo.urls')),
 ]
 
 if settings.DEBUG:
