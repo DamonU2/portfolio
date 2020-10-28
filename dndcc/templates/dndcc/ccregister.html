@@ -1,0 +1,14 @@
+{% extends "dndcc/layout.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+<div>
+    <h2>Register to get started!</h2>
+    <div class="user-form">
+        {% crispy form %}
+    </div>
+</div>
+{% endblock %}

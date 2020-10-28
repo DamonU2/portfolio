@@ -1,0 +1,18 @@
+{% extends "dndcc/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block main %}
+<div class="user-form">
+    {% crispy form %}
+    <div style=" margin: 5px;">Or</div>
+    <div>
+        <a class="btn btn-secondary" href="{% url 'ccregister' %}" style="background-color: red; border-style: none;">Register New
+            Account</a>
+    </div>
+
+</div>
+{% endblock %}

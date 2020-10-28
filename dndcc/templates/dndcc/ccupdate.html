@@ -1,0 +1,24 @@
+{% extends "dndcc/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Update Character
+{% endblock %}
+
+{% block main %}
+<div>
+    <h2>Enter Character Information</h2>
+    <div class="user-form">
+        {% crispy form %}
+    </div>
+</div>
+<script>
+    document.getElementById("id_level").value = {{character.level}};
+    document.getElementById("id_stn").value = {{character.stn}};
+    document.getElementById("id_dex").value = {{character.dex}};
+    document.getElementById("id_con").value = {{character.con}};
+    document.getElementById("id_inl").value = {{character.inl}};
+    document.getElementById("id_wis").value = {{character.wis}};
+    document.getElementById("id_cha").value = {{character.cha}};
+</script>
+{% endblock %}

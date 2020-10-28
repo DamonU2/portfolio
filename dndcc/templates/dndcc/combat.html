@@ -1,0 +1,205 @@
+{% extends "dndcc/layout.html" %}
+{% block title %}
+    Combat
+{% endblock %}
+{% block nav %}
+    <li class="nav-item"><a class="nav-link" href="{% url 'character' %}">Character Info</a></li>
+{% endblock %}
+
+{% block main %}
+    <div class="row" style="text-align: center;">
+
+        <div class="col">
+
+            <br>
+
+            <h2>Hit Points:</h2>
+            <div>
+                <input class="HP" type="text" id="HP" onkeyup="save()"></input>
+            </div>
+
+            <br>
+
+            <h2>Temporary</h2>
+            <h2>Hit Points:</h2>
+            <div>
+                <input type="text" class="HP" id="tempHP" onkeyup="save()"></input>
+            </div>
+
+            <br>
+
+            <div>
+                <h2>Death Saves</h2>
+            <table class="saves">
+                <tr>
+                    <th>
+                        Successes:
+                    </th>
+                    <td>
+                        <input id="1" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="2" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="3" onchange="check()" type="checkbox"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Failures:
+                    </th>
+                    <td>
+                        <input id="4" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="5" onchange="check()" type="checkbox"></input>
+                    </td>
+                    <td>
+                        <input id="6" onchange="check()" type="checkbox"></input>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+        <div class="col">
+            <br>
+            <h2>Weapons</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Weapon</th>
+                        <th>Bonus</th>
+                        <th>Damage</th>
+                        <th>Damage Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for weapon in weapons %}
+                    <tr>
+                        <td>{{ weapon.name }}</td>
+                        <td>{{ weapon.bonus }}</td>
+                        <td>{{ weapon.diceNum }}d{{ weapon.diceType }}</td>
+                        <td>{{ weapon.damType }}</td>
+                        <form action="{% url 'weapon_attack' %}" method="POST">
+                            {% csrf_token %}
+                            <td><button type="submit" class="btn btn-danger" name="weapon_attack" value="{{ weapon.pk }}" role="button">
+                            Attack with {{ weapon.name }}
+                            </button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <h2>Attack Spells</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Spell</th>
+                        <th>Damage</th>
+                        <th>Damage Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for spell in spells %}
+                    <tr>
+                        <td>{{ spell.name }}</td>
+                        <td>{{ spell.diceNum }}d{{ spell.diceType }}</td>
+                        <td>{{ spell.damType }}</td>
+                        <form action="{% url 'spell_attack' %}" method="post">
+                            {% csrf_token %}
+                            <td><button type = "submit" class="btn btn-danger" name="spell_attack" value="{{ spell.pk }}" role="button">
+                            Cast {{ spell.name }}
+                            </button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col">
+            <br>
+            <ul class="throws"><h2>Saving Throws:</h2>
+
+            <li><form action="{% url 'saving_throw' %}" method="post">
+                {% csrf_token %}
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="stn" role="button">
+                    Strength
+                </button></td>
+            </form></li>
+
+            <li><form action="{% url 'saving_throw' %}" method="post">
+                {% csrf_token %}
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="dex" role="button">
+                    Dexterity
+                </button></td>
+            </form></li>
+
+            <li><form action="{% url 'saving_throw' %}" method="post">
+                {% csrf_token %}
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="con" role="button">
+                    Constitution
+                </button></td>
+            </form></li>
+
+            <li><form action="{% url 'saving_throw' %}" method="post">
+                {% csrf_token %}
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="inl" role="button">
+                    Intelligence
+                </button></td>
+            </form></li>
+
+            <li><form action="{% url 'saving_throw' %}" method="post">
+                {% csrf_token %}
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="wis" role="button">
+                    Wisdom
+                </button></td>
+            </form></li>
+
+            <li><form action="{% url 'saving_throw' %}" method="post">
+                {% csrf_token %}
+                <td><button type = "submit" class="btn btn-secondary" style="width: 95px;" name="saving_throw" value="cha" role="button">
+                    Charisma
+                </button></td>
+            </form></li>
+            </ul>
+
+        </div>
+    </div>
+    <script>
+
+        document.getElementById("HP").value = sessionStorage.getItem("HP");
+        document.getElementById("tempHP").value = sessionStorage.getItem("tempHP");
+
+        function save(){
+            sessionStorage.setItem("HP", document.getElementById("HP").value);
+            sessionStorage.setItem("tempHP", document.getElementById("tempHP").value);
+        }
+
+        for (let i = 1; i < 7; i++){
+            if (sessionStorage.getItem(i) == "t"){
+                document.getElementById(i).checked = true;
+            }
+            else{
+                document.getElementById(i).checked = false;
+            }
+        }
+
+        function check(){
+            for (let i = 1; i < 7; i++){
+                if (document.getElementById(i).checked == true){
+                    sessionStorage.setItem(i, "t");
+                }
+                else {
+                    sessionStorage.setItem(i, "f");
+                }
+            }
+        };
+
+    </script>
+{% endblock %}

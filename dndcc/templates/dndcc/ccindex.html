@@ -1,0 +1,44 @@
+{% extends "dndcc/layout.html" %}
+{% block title %}
+    Characters
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Level</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for character in char %}
+                <tr>
+                    <td>{{ character.name }}</td>
+                    <td>{{ character.clss }}</td>
+                    <td>{{ character.level }}</td>
+                    <form action="{% url 'character' %}" method="POST">
+                        {% csrf_token %}
+                        <td><button name="char" value="{{character.pk}}" type="submit" class="btn btn-secondary btn-pick" role="button">
+                            Pick {{ character.name }}
+                        </button></td>
+                    </form>
+                    <form action="{% url 'delete_character' %}" method="POST">
+                        {% csrf_token %}
+                        <td><button name="del_char" type="submit" value="{{character.pk}}" class="btn btn-danger" role="button" onclick="return confirm('Are you sure you want to delete this character?')">
+                            Delete
+                        </button></td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <a class="btn btn-dark" href="{% url 'new_character' %}" role="button">Create New Character</a>
+
+{% endblock %}

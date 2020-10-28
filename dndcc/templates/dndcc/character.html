@@ -1,0 +1,140 @@
+{% extends "dndcc/layout.html" %}
+{% block title %}
+Character Info
+{% endblock %}
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href="{% url 'combat' %}">Combat</a></li>
+{% endblock %}
+
+{% block main %}
+<br>
+<h1>
+    {{ character.name }}, a level {{ character.level }} {{ character.clss }}
+</h1>
+<br>
+<div class="row">
+    <div class="col">
+        <h2>Attributes</h2>
+        <table class="atts">
+            <tr>
+                <th>Strength</th>
+            </tr>
+            <tr>
+                <td style="font-size: xx-large;">{{ character.stn }}</td>
+            </tr>
+            <tr>
+                <th>Dexterity</th>
+            </tr>
+            <tr>
+                <td style="font-size: xx-large;">{{ character.dex }}</td>
+            </tr>
+            <tr>
+                <th>Constitution</th>
+            </tr>
+            <tr>
+                <td style="font-size: xx-large;">{{ character.con }}</td>
+            </tr>
+            <tr>
+                <th>Intelligence</th>
+            </tr>
+            <tr>
+                <td style="font-size: xx-large;">{{ character.inl }}</td>
+            </tr>
+            <tr>
+                <th>Wisdom</th>
+            </tr>
+            <tr>
+                <td style="font-size: xx-large;">{{ character.wis }}</td>
+            </tr>
+            <tr>
+                <th>Charisma</th>
+            </tr>
+            <tr>
+                <td style="font-size: xx-large;">{{ character.cha }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <a class="btn btn-secondary" href="{% url 'ccupdate' %}">Update</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col">
+    <div>
+        <h2>Weapons</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Weapon</th>
+                    <th>Bonus</th>
+                    <th>Damage</th>
+                    <th>Damage Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for weapon in weapons %}
+                <tr>
+                    <td>{{ weapon.name }}</td>
+                    <td>+{{ weapon.bonus }}</td>
+                    <td>{{ weapon.diceNum }}d{{ weapon.diceType }}</td>
+                    <td>{{ weapon.damType }}</td>
+                    <form action="{% url 'delete_weapon' %}" method="POST">
+                        {% csrf_token %}
+                        <td><button name="del_weap" type="submit" value="{{weapon.pk}}" class="btn btn-danger" role="button" 
+                                onclick="return confirm('Are you sure you want to delete this weapon?')">
+                            Delete
+                        </button></td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-secondary" href="{% url 'weapon' %}" role="button">Add New Weapon</a>
+
+    </div>
+    <br>
+    <div>
+        <h2>Attack Spells</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Spell</th>
+                    <th>Damage</th>
+                    <th>Damage Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for spell in spells %}
+                <tr>
+                    <td>{{ spell.name }}</td>
+                    <td>{{ spell.diceNum }}d{{ spell.diceType }}</td>
+                    <td>{{ spell.damType }}</td>
+                    <form action="{% url 'delete_spell' %}" method="POST">
+                        {% csrf_token %}
+                        <td><button name="del_spell" type = "submit" value="{{spell.pk}}" class="btn btn-danger" role="button" 
+                                onclick="return confirm('Are you sure you want to delete this spell?')">
+                            Delete
+                        </button></td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-secondary" href="{% url 'spell' %}" role="button">Add New Attack Spell</a>
+
+    </div>
+    </div>
+</div>
+<form action="{% url 'init' %}" method="post">
+    <br>
+    {% csrf_token %}
+    <button type="submit" class="btn btn-dark" role="button">
+        Roll for initiative and go to combat page!</button>
+</form>
+
+{% endblock %}

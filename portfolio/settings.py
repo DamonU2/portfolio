@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'users',
     'krnotes',
     'todo',
+    'dndcc',
     'crispy_forms',
 ]
 
