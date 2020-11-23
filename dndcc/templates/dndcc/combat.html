@@ -15,7 +15,7 @@
 
             <h2>Hit Points:</h2>
             <div>
-                <input class="HP" type="text" id="HP" onkeyup="save()"></input>
+                <input class="HP" type="number" id="HP" onchange="save()" min="0"></input>
             </div>
 
             <br>
@@ -23,7 +23,7 @@
             <h2>Temporary</h2>
             <h2>Hit Points:</h2>
             <div>
-                <input type="text" class="HP" id="tempHP" onkeyup="save()"></input>
+                <input class="HP" type="number" id="tempHP" onchange="save()" min="0"></input>
             </div>
 
             <br>
@@ -168,7 +168,11 @@
                 </button></td>
             </form></li>
             </ul>
-
+            <form action="{% url 'init' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark" role="button">
+                    Roll for initiative</button>
+            </form>
         </div>
     </div>
     <script>

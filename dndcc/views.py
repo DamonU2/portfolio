@@ -42,6 +42,7 @@ def cclogin(request):
 
 @player_required
 def cclogout(request):
+    # Clears all session data
     request.session['playerid'] = None
     request.session['charid'] = None
     request.session['username'] = None
@@ -50,6 +51,7 @@ def cclogout(request):
 
 @player_required
 def ccindex(request):
+    # Displays available characters for logged in user, or redirects to character creation page if there are none
     char = Character.objects.filter(player=request.session['playerid'])
     if char == None:
         return redirect('new_character')
@@ -79,8 +81,10 @@ def delete_character(request):
 
 @player_required
 def character(request):
+    # If directed here via character selection, set session character ID
     if request.method == 'POST':
         request.session["charid"] = request.POST['char']
+    # Collect and render character data
     pk = request.session["charid"]
     character = get_object_or_404(Character, pk=pk)
     weapons = Weapon.objects.filter(character=pk)
@@ -152,6 +156,7 @@ def delete_weapon(request):
 @char_required
 @player_required
 def combat(request):
+    # Collect character info and render
     character = get_object_or_404(Character, pk=request.session['charid'])
     weapons = Weapon.objects.filter(character=request.session['charid'])
     spells = Spell.objects.filter(character=request.session['charid'])
@@ -162,6 +167,7 @@ def combat(request):
 @player_required
 def init(request):
     character = get_object_or_404(Character, pk=request.session['charid'])
+    # Initiative determined with a dexterity check - character's dexterity modifier plus a d20 roll
     dex_mod = mod(character.dex)
     roll = dice_roll(20)
     messages.warning(request, "You rolled {}, plus {}, gives initiative of {}" .format(roll, dex_mod, dex_mod + roll))
@@ -172,35 +178,38 @@ def init(request):
 def weapon_attack(request):
     weapon = get_object_or_404(Weapon, pk=request.POST['weapon_attack'])
     character = get_object_or_404(Character, pk=request.session['charid'])
+    # If a character is proficient with a weapon, their proficiency bonus is added to the attack and damage rolls
     if weapon.prof:
         prof = ((character.level - 1) // 4) + 2
     else:
         prof = 0
-    att = mod(getattr(character, weapon.mod))
+    # Weapon specific ability modifier
+    abmod = mod(getattr(character, weapon.mod))
+    # Set base damage
     damage = 0
     roll = dice_roll(20)
-    # Special scenario if 20 or 1 are rolled
+    # Special scenario if 20 (critical hit) or 1 (miss) are rolled
     if roll == 20:
         # Damage dice are doubled for a critical hit
         dicenum = weapon.diceNum * 2
         # Roll damage dice dicenum times
         for i in range(0, dicenum):
             damage += dice_roll(weapon.diceType)
-        # Add bonus and attribute bonus to damage
-        damage = damage + weapon.bonus + att
-        # Display roll info in alert
+        # Add bonus and attribute modifier to damage
+        damage = damage + weapon.bonus + abmod
+        # Display roll info in message
         messages.warning(request, "Critical Hit for {} {} damage!".format(damage, weapon.damType))
     elif roll == 1:
         # If a one is rolled, no further calculations are necessary
         messages.warning(request, "1! Miss!")
     else:
-        # Roll damage die dicenum times
+        # Roll damage die diceNum times
         for i in range(0, weapon.diceNum):
             damage += dice_roll(weapon.diceType)
-        # Add bonuses to damage
-        damage = damage + weapon.bonus + att
-        # Display roll info
-        messages.warning(request, "Attack roll of {}, plus {} is {}. If the attack hits, it does {} {} damage".format(roll, weapon.bonus + att + prof, roll + weapon.bonus + att + prof, damage, weapon.damType))
+        # Add bonus and attribute modifier to damage
+        damage = damage + weapon.bonus + abmod
+        # Display roll info in message
+        messages.warning(request, "Attack roll of {}, plus {} is {}. If the attack hits, it does {} {} damage".format(roll, weapon.bonus + abmod + prof, roll + weapon.bonus + abmod + prof, damage, weapon.damType))
     return redirect('combat')
 
 
@@ -209,19 +218,22 @@ def weapon_attack(request):
 def spell_attack(request):
     spell = get_object_or_404(Spell, pk=request.POST['spell_attack'])
     character = get_object_or_404(Character, pk=request.session['charid'])
+    # Set proficiency bonus
     prof = ((character.level - 1) // 4) + 2
-    ab = 0
+    # Ability modifier zeroed
+    abmod = 0
     # Determines spell ability modifier based on class
     if character.clss == "Bard" or character.clss == "Sorcerer" or character.clss == "Paladin" or character.clss == "Warlock":
-        ab = mod(character.cha)
+        abmod = mod(character.cha)
     elif character.clss == "Wizard" or character.clss == "Fighter" or character.clss == "Rogue":
-        ab = mod(character.inl)
+        abmod = mod(character.inl)
     else:
-        ab = mod(character.wis)
+        abmod = mod(character.wis)
+    # Zero damage
     damage = 0
     # Roll 20 sided dice
     roll = dice_roll(20)
-    # Special scenario if 20 or 1 are rolled
+    # Special scenario if 20 (critical hit) or 1 (miss) are rolled
     if roll == 20:
         # Damage dice are doubled for a critical hit
         dicenum = spell.diceNum * 2
@@ -234,41 +246,44 @@ def spell_attack(request):
         # If a one is rolled, no further calculations are necessary
         messages.warning(request, "1! Miss!")
     else:
-        # Roll damage die dicenum times
+        # Roll damage die diceNum times
         for i in range(0, spell.diceNum):
             damage += dice_roll(spell.diceType)
-        # Display roll info
-        messages.warning(request, "Attack roll of {}, plus {} is {}. If the attack hits, it does {} {} damage".format(roll, ab + prof, roll + ab + prof, damage, spell.damType))
+        # Display roll info in message
+        messages.warning(request, "Attack roll of {}, plus {} is {}. If the attack hits, it does {} {} damage".format(roll, abmod + prof, roll + abmod + prof, damage, spell.damType))
     return redirect('combat')
 
 @char_required
 @player_required
 def saving_throw(request):
-    attribute = request.POST['saving_throw']
+    # Get ability being tested
+    ability = request.POST['saving_throw']
     character = get_object_or_404(Character, pk=request.session['charid'])
+    # Set proficiency bonus
     prof = ((character.level - 1) // 4) + 2
-    att = mod(getattr(character, attribute))
-    # Adds saving throw proficiencies to attribute mocifiers according to class bonuses 
-    if attribute == "stn":
+    # Set ability modifier
+    abmod = mod(getattr(character, ability))
+    # Adds saving throw proficiencies to ability modifiers according to class bonuses 
+    if ability == "stn":
         if character.clss == "Barbarian" or character.clss == "Fighter" or character.clss == "Monk" or character.clss == "Ranger":
-            att += prof
-    elif attribute == "dex":
+            abmod += prof
+    elif ability == "dex":
         if character.clss == "Bard" or character.clss == "Monk" or character.clss == "Ranger" or character.clss == "Rogue":
-            att += prof
-    elif attribute == "con":
+            abmod += prof
+    elif ability == "con":
         if character.clss == "Barbarian" or character.clss == "Fighter" or character.clss == "Sorcerer":
-            att += prof
-    elif attribute == "inl":
+            abmod += prof
+    elif ability == "inl":
         if character.clss == "Druid" or character.clss == "Rogue" or character.clss == "Wizard":
-            att += prof
-    elif attribute == "wis":
+            abmod += prof
+    elif ability == "wis":
         if character.clss == "Cleric" or character.clss == "Druid" or character.clss == "Paladin" or character.clss == "Warlock" or character.clss == "Wizard":
-            att += prof
-    elif attribute == "cha":
+            abmod += prof
+    elif ability == "cha":
         if character.clss == "Bard" or character.clss == "Cleric" or character.clss == "Paladin" or character.clss == "Sorcerer" or character.clss == "Warlock":
-            att += prof
+            abmod += prof
     # Roll 20 sided die
     roll = dice_roll(20)
-    # Flash roll info in alert
-    messages.warning(request, "You rolled {}, plus {}, gives {}" .format(roll, att, att + roll))
+    # Display roll info in message
+    messages.warning(request, "You rolled {}, plus {}, gives {}" .format(roll, abmod, abmod + roll))
     return redirect('combat')

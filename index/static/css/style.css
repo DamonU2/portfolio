@@ -1,6 +1,9 @@
+body * {
+    font-family: 'Raleway', sans-serif;
+}
+
 body {
     background-image: url('/static/images/dust-bg.jpg');
-    overflow-y: hidden;
 }
 
 .navbar-brand {
@@ -35,6 +38,19 @@ body {
     height: auto;
 }
 
+.tech {
+    border-left: 2px solid black;
+    list-style-type: none;
+    padding: 0px 30px;
+    display: block;
+}
+
+.tech h6 {
+    padding: 8px 0px;
+    margin-bottom: 0;
+    font-weight:600;
+}
+
 .site-menu {
     padding-top: 25px;
 }
@@ -63,6 +79,7 @@ body {
     display: block;
     text-align: center;
     padding: 8px 16px;
+    margin-top: 6px;
     text-decoration: none;
 }
 

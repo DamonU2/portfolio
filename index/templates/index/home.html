@@ -7,50 +7,111 @@
         <div class="container">
             <div class="row center">
                 <div class="col-md-auto">
-                    <h1>Damon Ulmi</h1>
-                    <h4>Full Stack Python Django Developer</h4>
+                    <a href="#index-about"><h1>Damon Ulmi</h1></a>
+                    <h4>Full-stack Django Developer</h4>
+
                     <div class="site-menu">
                         <ul class="menu-list">
-                            <li><a href="#index-about"><h5>About</h5></a></li>
-                            <li><a href="#index-projects"><h5>Projects</h5></a></li>
-                            <li><a href="mailto:damonulmi@gmail.com"><h5>Contact Me</h5></a></li>
+                            <li><a href="#index-about">
+                                    <h5>About</h5>
+                                </a></li>
+                            <li><a href="#index-projects">
+                                    <h5>Projects</h5>
+                                </a></li>
+                            <li><a href="mailto:damonulmi@gmail.com">
+                                    <h5>Contact Me</h5>
+                                </a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md">
+                <div class="col-md-auto">
                     <img class="img-fluid" src="{% static 'images/default.jpg' %}" alt="Profile Picture">
                 </div>
             </div>
         </div>
         <div class="container" id="index-about">
             <div class="row center">
-                <div class="col-md">
+                <div class="col-md-auto">
                     <img class="img-fluid" src="{% static 'images/default.jpg' %}" alt="Profile Picture">
+                    <p></p>
                 </div>
-                <div class="col-md-8">
-                    <a href="#top"><h1>Damon Ulmi</h1></a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Viverra justo nec ultrices dui sapien eget mi proin sed. Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam. Odio ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Arcu vitae elementum curabitur vitae nunc sed velit dignissim sodales. Sed odio morbi quis commodo odio. Et malesuada fames ac turpis egestas sed tempus urna et. Turpis egestas integer eget aliquet nibh praesent tristique magna. Luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor. Non blandit massa enim nec dui nunc mattis. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Fermentum iaculis eu non diam phasellus vestibulum lorem sed. In tellus integer feugiat scelerisque varius morbi enim. Gravida arcu ac tortor dignissim convallis aenean et tortor. Bibendum ut tristique et egestas. Eu volutpat odio facilisis mauris sit. In ante metus dictum at tempor. Ante in nibh mauris cursus mattis.</p>
+                <div class="col-6">
+                    <h1>Damon Ulmi</h1>
+                    <h4>B. Sc. (Eng)</h4>
+                    <h5>Tech:</h5>
+                    <div class="row">
+                        <ul class="tech" style="margin-left: 40px;">
+                            <li>
+                                <h6>Python</h6>
+                            </li>
+                            <li>
+                                <h6>Django</h6>
+                            </li>
+                            <li>
+                                <h6>Flask</h6>
+                            </li>
+                        </ul>
+                        <ul class="tech" style="margin-bottom: 50px;">
+                            <li>
+                                <h6>Javascript</h6>
+                            </li>
+                            <li>
+                                <h6>HTML5</h6>
+                            </li>
+                        </ul>
+                        <ul class="tech" style="margin-bottom: 50px;">
+                            <li>
+                                <h6>CSS</h6>
+                            </li>
+                            <li>
+                                <h6>Bootstrap</h6>
+                            </li>
+                        </ul>
+                    </div>
+                    <p>
+                    <h6>
+                        I build full-stack web applications, primarily using Django, but I am 
+                        comfortable using and learning other frameworks and languages. If you
+                        have a great idea, I can help you bring it to life, or scale up an existing
+                        app to meet growing demand. My priority will always be ensuring that
+                        the project meets your vision, and receives any neccessary support.
+
+                        Feel free to check out some of my <a href="#index-projects">projects</a> below, or take a look
+                        at my <a href="https://github.com/DamonU2" target="_blank" rel="noopener noreferrer">Github</a>.
+                    </h6>
+                    <br>
+                    <h6>
+                        Currently, I am based in the beautiful town of Courtenay, BC, Canada, where
+                        I spend my free time enjoying our mountains and roasting whole pigs.
+                    </h6>
+                    </p>
                 </div>
             </div>
         </div>
         <div class="container" id="index-projects">
             <div class="row center">
                 <div class="col-md col-proj">
-                    <a href="{% url 'krnotes-home' %}" target="_blank" rel="noopener noreferrer"><img class="project-pic" src="{% static 'images/cartoon-raccoon.jpg' %}" alt="Raccoon">
-                    <h4>Food and Garden Blog</h4></a>
+                    <a href="{% url 'krnotes-home' %}" target="_blank" rel="noopener noreferrer"><img
+                            class="project-pic" src="{% static 'images/cartoon-raccoon.jpg' %}" alt="Raccoon">
+                        <h4>Food and Garden Blog</h4>
+                    </a>
                 </div>
                 <div class="col-md col-proj">
-                    <a href="{% url 'ccindex' %}" target="_blank" rel="noopener noreferrer"><img class="project-pic" src="{% static 'images/dndcc.jpg' %}" alt="20 sided die">
-                    <h4>D&D Combat Companion</h4></a>
+                    <a href="{% url 'ccindex' %}" target="_blank" rel="noopener noreferrer"><img class="project-pic"
+                            src="{% static 'images/dndcc.jpg' %}" alt="20 sided die">
+                        <h4>D&D Combat Companion</h4>
+                    </a>
                 </div>
                 <div class="col-md col-proj">
                     <a href="{% url 'BJ' %}"><img class="project-pic" src="{% static 'images/BJ.jpg' %}" alt="Ace Jack">
-                    <h4>Blackjack - Javascript</h4></a>
+                        <h4>Blackjack - Javascript</h4>
+                    </a>
                 </div>
                 <div class="col-md col-proj">
-                    <a href="{% url 'todo_home' %}" target="_blank" rel="noopener noreferrer"><img class="project-pic" src="{% static 'images/ToDo.png' %}" alt="List">
-                    <h4>To Do List</h4>
-                    <br></a>
+                    <a href="{% url 'todo_home' %}" target="_blank" rel="noopener noreferrer"><img class="project-pic"
+                            src="{% static 'images/ToDo.png' %}" alt="List">
+                        <h4>To Do List</h4>
+                    </a>
                 </div>
             </div>
         </div>

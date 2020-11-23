@@ -45,7 +45,6 @@
             <div class="collapse navbar-collapse" id="navbar" role="navigation">
                 {% if request.session.charid %}
                     <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'ccindex' %}">Change Character</a></li>
                         {% block nav %}{% endblock %}
                         <li class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <button id="rollclick" class="btn btn-secondary" data-toggle="modal" data-target="#rollDiceModal">
@@ -59,6 +58,7 @@
                                 <option value="4">d4</option>
                             </select>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'ccindex' %}">Change Character</a></li>
                     </ul>
                 {% endif %}
                 {% if not request.session.playerid %}
